@@ -1,0 +1,9 @@
+---
+title: "Child .Rmd"
+output: html_document
+---
+
+```{r}
+Sys.sleep(2)
+print(paste0("hello from the child RMD at ", Sys.time()))
+```

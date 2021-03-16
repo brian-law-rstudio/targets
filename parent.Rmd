@@ -1,0 +1,62 @@
+---
+title: "Parent & Child scripts in R Markdown"
+output: html_document
+---
+
+# Why am I here?
+
+These `hello world` examples explore how to build more complex workflows by stacking together R Code across different scripts. Or alternatively, if you already have a long, complex script, this will guide you on how to break it apart into more smaller, modular pieces (almost always a good idea).
+
+The first recommendation is that, yes, while you can do this using plain .R scripts and calling the `source()` function, we do not recommend that. Instead, we propose using R Markdown instead because it does everything you can do with .R scripts, but much more, and is more reproducible. In our experience, "future you" will thank "past you".
+
+## First, a code chunk directly within the parent document.
+
+```{r}
+print(paste0("The parent says hello at ", Sys.time()))
+# This is great when you don't have too much code to embed
+```
+
+## Second, but not recommended, source() an external .R script
+
+```{r}
+source("./child.R")
+# Note that there is no way to run source(some.Rmd)
+```
+
+## Third, recommended for most cases, call an external .Rmd script
+
+Executing a separate R Markdown file is usually better. How can you do that? There are at least 2 ways which are discussed [here](https://bookdown.org/yihui/rmarkdown-cookbook/child-document.html). I will present them in no particular order (whispers: but I recommend the first).
+
+### Call the child .Rmd from inside the code chunk
+
+```{r echo=TRUE}
+knitr::knit_child("./child.Rmd", quiet=TRUE)
+# The quiet=TRUE is a nice option to suppress some system messages
+```
+
+### Call the child .Rmd from the code chunk header
+
+```{r child="./child.Rmd"}
+```
+
+#### Some subtleties
+
+Note the differences between what is returned. When we use the \`knitr::knit\_child\`\` function that returns a character vector of the knitted output, versus when we call the child document in the chunk header it returns the ouput already formatted by newlines. The R Markdown book link above talks about this more if you're curious.
+
+Also note that in the child.Rmd document you can remove the YAML header and knitting the parent.Rmd will still run. You would likely only delete the child.Rmd YAML header if you want to format the character vector that's returned.
+
+### How to generate a report in an external .Rmd file?
+
+There is an important difference between using `knir::knit_child()` and `rmarkdown::render()` functions on the external .Rmd file inside a code chunk. The knit\_child won't generate the external report versus render will.
+
+For example, let's Knit this entire document with the render line below commented out and see if the `child_report.html` is actually generated in the File pane.
+
+```{r}
+rmarkdown::render("./child_report.Rmd", quiet=TRUE)
+```
+
+Now let's Knit this document with the render line above NOT commented out and see if the `child_report.html` is actually generated in the File pane.
+
+```{r}
+knitr::knit_child("./child_report.Rmd", quiet=TRUE)
+```

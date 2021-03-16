@@ -1,0 +1,30 @@
+---
+title: "Parent & child scripts using the Targets package"
+resource_files:
+- R/connect_helpers.R
+- _targets.R
+output:html_document
+---
+
+```{r setup, message=FALSE, warning=FALSE}
+library(targets)
+library(visNetwork)
+library(tidymodels)
+library(tidyverse)
+library(connectapi)
+library(rsconnect)
+library(tarchetypes)
+library(qs)
+```
+
+```{r glimpse}
+tar_glimpse()
+```
+
+```{r plan}
+tar_visnetwork()
+```
+
+```{r make}
+tar_make()
+```

@@ -1,0 +1,11 @@
+---
+title: "Child Report, not just code"
+output:
+  html_document
+---
+
+```{r pressure}
+Sys.sleep(1)
+print(paste0("hello from the child_report.Rmd now at ", Sys.time()))
+plot(mtcars$cyl)
+```
