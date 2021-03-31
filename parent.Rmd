@@ -49,13 +49,16 @@ Also note that in the child.Rmd document you can remove the YAML header and knit
 
 There is an important difference between using `knir::knit_child()` and `rmarkdown::render()` functions on the external .Rmd file inside a code chunk. The knit\_child won't generate the external report versus render will.
 
-For example, let's Knit this entire document with the render line below commented out and see if the `child_report.html` is actually generated in the File pane.
+For example, let's Knit this entire document with this code chunk commented out and see if the `child_report.html` is actually generated in the File pane.
 
 ```{r}
-rmarkdown::render("./child_report.Rmd", quiet=TRUE)
+xfun::Rscript_call(
+  rmarkdown::render,
+  list(input = './child_report.Rmd')
+)
 ```
 
-Now let's Knit this document with the render line above NOT commented out and see if the `child_report.html` is actually generated in the File pane.
+Now let's Knit this document with the render line above NOT commented out and see if the `child_report.html` is actually generated in the File pane. Nope.
 
 ```{r}
 knitr::knit_child("./child_report.Rmd", quiet=TRUE)

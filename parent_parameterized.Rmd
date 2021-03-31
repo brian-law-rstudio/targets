@@ -1,0 +1,42 @@
+---
+title: "Parent & Child scripts in Parameterized R Markdown"
+output: html_document
+params:
+  start_date:
+    input: date
+    value: 2012-01-01
+    min: 2010-01-01
+    label: "Start Date"
+  end_date:
+    input: date
+    value: 2020-01-01
+    min: 2010-01-01
+    label: "End Date"
+  level_of_detail:
+    label: Level_of_detail
+    value: Include Summary
+    input: radio
+    choices:
+    - Include Summary
+    - Only Analysis
+---
+
+# A Twist!
+
+Now what happens when we have a parameterized parent R Markdown document and we want to pass those parameters to the child document?
+
+Here is the start date you have chosen, printed in the parent document. `r params$start_date`
+
+The chunk below shows two things: 1) how you can use a parameter to decide whether to run a child .Rmd at all, and 2) how you can call the child document, run it, and print back messages from the child here in the parent, including messages that use the parameter in the parent document.
+
+```{r exec_summary, child=if (params$level_of_detail == "Include Summary") 'child_parameterized.Rmd'}
+```
+
+Going one step further, what about rendering a report that's created in the child document? To do that we'll use the `Rscript_call()`
+
+```{r}
+xfun::Rscript_call(
+  rmarkdown::render,
+  list(input = 'child_parameterized.Rmd', params = list(start_date = params$start_date))
+)
+```

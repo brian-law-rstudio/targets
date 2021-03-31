@@ -278,6 +278,9 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
@@ -369,13 +372,13 @@ summary {
 <div id="first-a-code-chunk-directly-within-the-parent-document." class="section level2">
 <h2>First, a code chunk directly within the parent document.</h2>
 <pre class="r"><code>print(paste0(&quot;The parent says hello at &quot;, Sys.time()))</code></pre>
-<pre><code>## [1] &quot;The parent says hello at 2021-03-15 23:06:54&quot;</code></pre>
+<pre><code>## [1] &quot;The parent says hello at 2021-03-30 22:47:48&quot;</code></pre>
 <pre class="r"><code># This is great when you don&#39;t have too much code to embed</code></pre>
 </div>
 <div id="second-but-not-recommended-source-an-external-.r-script" class="section level2">
 <h2>Second, but not recommended, source() an external .R script</h2>
 <pre class="r"><code>source(&quot;./child.R&quot;)</code></pre>
-<pre><code>## [1] &quot;hello from the child .R file at 2021-03-15 23:06:56&quot;</code></pre>
+<pre><code>## [1] &quot;hello from the child .R file at 2021-03-30 22:47:50&quot;</code></pre>
 <pre class="r"><code># Note that there is no way to run source(some.Rmd)</code></pre>
 </div>
 <div id="third-recommended-for-most-cases-call-an-external-.rmd-script" class="section level2">
@@ -384,14 +387,14 @@ summary {
 <div id="call-the-child-.rmd-from-inside-the-code-chunk" class="section level3">
 <h3>Call the child .Rmd from inside the code chunk</h3>
 <pre class="r"><code>knitr::knit_child(&quot;./child.Rmd&quot;, quiet=TRUE)</code></pre>
-<pre><code>## [1] &quot;\n\n\n\n\n\n\n```r\nSys.sleep(2)\nprint(paste0(\&quot;hello from the child RMD at \&quot;, Sys.time()))\n```\n\n```\n## [1] \&quot;hello from the child RMD at 2021-03-15 23:06:58\&quot;\n```&quot;</code></pre>
+<pre><code>## [1] &quot;\n\n\n\n\n\n\n```r\nSys.sleep(2)\nprint(paste0(\&quot;hello from the child RMD at \&quot;, Sys.time()))\n```\n\n```\n## [1] \&quot;hello from the child RMD at 2021-03-30 22:47:52\&quot;\n```&quot;</code></pre>
 <pre class="r"><code># The quiet=TRUE is a nice option to suppress some system messages</code></pre>
 </div>
 <div id="call-the-child-.rmd-from-the-code-chunk-header" class="section level3">
 <h3>Call the child .Rmd from the code chunk header</h3>
 <pre class="r"><code>Sys.sleep(2)
 print(paste0(&quot;hello from the child RMD at &quot;, Sys.time()))</code></pre>
-<pre><code>## [1] &quot;hello from the child RMD at 2021-03-15 23:07:00&quot;</code></pre>
+<pre><code>## [1] &quot;hello from the child RMD at 2021-03-30 22:47:54&quot;</code></pre>
 <div id="some-subtleties" class="section level4">
 <h4>Some subtleties</h4>
 <p>Note the differences between what is returned. When we use the `knitr::knit_child`` function that returns a character vector of the knitted output, versus when we call the child document in the chunk header it returns the ouput already formatted by newlines. The R Markdown book link above talks about this more if you’re curious.</p>
@@ -401,11 +404,14 @@ print(paste0(&quot;hello from the child RMD at &quot;, Sys.time()))</code></pre>
 <div id="how-to-generate-a-report-in-an-external-.rmd-file" class="section level3">
 <h3>How to generate a report in an external .Rmd file?</h3>
 <p>There is an important difference between using <code>knir::knit_child()</code> and <code>rmarkdown::render()</code> functions on the external .Rmd file inside a code chunk. The knit_child won’t generate the external report versus render will.</p>
-<p>For example, let’s Knit this entire document with the render line below commented out and see if the <code>child_report.html</code> is actually generated in the File pane.</p>
-<pre class="r"><code>rmarkdown::render(&quot;./child_report.Rmd&quot;, quiet=TRUE)</code></pre>
+<p>For example, let’s Knit this entire document with this code chunk commented out and see if the <code>child_report.html</code> is actually generated in the File pane.</p>
+<pre class="r"><code># xfun::Rscript_call(
+#   rmarkdown::render,
+#   list(input = &#39;./child_report.Rmd&#39;)
+# )</code></pre>
 <p>Now let’s Knit this document with the render line above NOT commented out and see if the <code>child_report.html</code> is actually generated in the File pane.</p>
 <pre class="r"><code>knitr::knit_child(&quot;./child_report.Rmd&quot;, quiet=TRUE)</code></pre>
-<pre><code>## [1] &quot;\n\n\n\n\n\n\n\n```r\nSys.sleep(1)\nprint(paste0(\&quot;hello from the child_report.Rmd now at \&quot;, Sys.time()))\n```\n\n```\n## [1] \&quot;hello from the child_report.Rmd now at 2021-03-15 23:07:03\&quot;\n```\n\n```r\nplot(mtcars$cyl)\n```\n\n&lt;img src=\&quot;parent_files/figure-html/pressure-1.png\&quot; width=\&quot;672\&quot; /&gt;&quot;</code></pre>
+<pre><code>## [1] &quot;\n\n\n\n\n\n\n\n```r\nSys.sleep(1)\nprint(paste0(\&quot;hello from the child_report.Rmd now at \&quot;, Sys.time()))\n```\n\n```\n## [1] \&quot;hello from the child_report.Rmd now at 2021-03-30 22:47:55\&quot;\n```\n\n```r\nplot(mtcars$cyl)\n```\n\n&lt;img src=\&quot;parent_files/figure-html/pressure-1.png\&quot; width=\&quot;672\&quot; /&gt;&quot;</code></pre>
 </div>
 </div>
 </div>

@@ -1,0 +1,12 @@
+---
+title: "Child Report, Parameterized from Parent"
+output: html_document
+params:
+  start_date: # NOTE, you have to define the params here in the child even though you'll overwrite from the parent
+    input: date
+    value: 2011-01-01
+    min: 2010-01-01
+    label: "Start Date"
+---
+
+Here is the start date you have chosen inside the parent document, but now printed in the CHILD document. `r params$start_date`
