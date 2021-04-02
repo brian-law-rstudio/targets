@@ -7,6 +7,17 @@ params:
     value: 2011-01-01
     min: 2010-01-01
     label: "Start Date"
+  species:
+    label: Species
+    value: setosa
+    input: select
+    choices: ["setosa", "versicolor", "virginia"]
 ---
 
-Here is the start date you have chosen inside the parent document, but now printed in the CHILD document. `r params$start_date`
+Here is the start date you have chosen using a parameter inside the parent document, but now printed in the CHILD document. `r params$start_date`
+
+Here is the species you have chosen using a parameter inside the parent document, but now printed in the CHILD document. `r params$species`
+
+```{r}
+lm(Sepal.Length ~ Sepal.Width, data=dplyr::filter(iris, Species == params$species))
+```

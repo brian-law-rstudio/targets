@@ -11,7 +11,7 @@
 
 
 
-<title>Child Parameterized from Parent</title>
+<title>Child Report, Parameterized from Parent</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -360,12 +360,22 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Child Parameterized from Parent</h1>
+<h1 class="title toc-ignore">Child Report, Parameterized from Parent</h1>
 
 </div>
 
 
-<p>Here is the start date you have chosen inside the parent document, but now printed in the CHILD document. 2012-01-01</p>
+<p>Here is the start date you have chosen using a parameter inside the parent document, but now printed in the CHILD document. 2014-11-18</p>
+<p>Here is the species you have chosen using a parameter inside the parent document, but now printed in the CHILD document. virginica</p>
+<pre class="r"><code>lm(Sepal.Length ~ Sepal.Width, data=dplyr::filter(iris, Species == params$species))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Sepal.Length ~ Sepal.Width, data = dplyr::filter(iris, 
+##     Species == params$species))
+## 
+## Coefficients:
+## (Intercept)  Sepal.Width  
+##      3.9068       0.9015</code></pre>
 
 
 

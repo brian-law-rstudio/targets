@@ -368,13 +368,16 @@ pre code {
 <div id="a-twist" class="section level1">
 <h1>A Twist!</h1>
 <p>Now what happens when we have a parameterized parent R Markdown document and we want to pass those parameters to the child document?</p>
-<p>Here is the start date you have chosen, printed in the parent document. 2012-01-01</p>
+<p>Here is the start date you have chosen, printed in the parent document. 2014-11-18</p>
 <p>The chunk below shows two things: 1) how you can use a parameter to decide whether to run a child .Rmd at all, and 2) how you can call the child document, run it, and print back messages from the child here in the parent, including messages that use the parameter in the parent document.</p>
-<p>Here is the start date you have chosen inside the parent document, but now printed in the CHILD document. 2012-01-01</p>
 <p>Going one step further, what about rendering a report that’s created in the child document? To do that we’ll use the <code>Rscript_call()</code></p>
+<p>Note that we’re focusing just on virginica</p>
 <pre class="r"><code>xfun::Rscript_call(
   rmarkdown::render,
-  list(input = &#39;child_parameterized.Rmd&#39;, params = list(start_date = params$start_date))
+  list(input = &#39;child_parameterized.Rmd&#39;, 
+       params = list(
+         start_date = params$start_date,
+         species = params$species))
 )</code></pre>
 <pre><code>## [1] &quot;/Volumes/GoogleDrive/My Drive/Teaching/targets/child_parameterized.html&quot;</code></pre>
 </div>
